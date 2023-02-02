@@ -12,14 +12,13 @@ namespace Advent2019 {
 		public const int Multiply = 2;
 		public const int Halt = 99;
 		public const int NounVerbMaxValue = 99;
+		public const int TargetOutput = 19690720;
 
 
 		public static void Main(string[] args) {
 			int[] intcodeProgram = Day2.CompileIntcodeProgram("input/day2.txt");
 			Console.WriteLine(String.Format("Output of Intcode program with noun = 12 and verb = 2 is {0}.", ExecuteIntcodeProgram(intcodeProgram, 12, 2)));
-
-			const int output = 19690720;
-			Console.WriteLine(String.Format("For the noun and verb that output {0}, 100 * noun + verb = {1}.", output, CrackProgram(intcodeProgram, output)));
+			Console.WriteLine(String.Format("For the noun and verb that output {0}, 100 * noun + verb = {1}.", TargetOutput, CrackProgram(intcodeProgram)));
 		}
 
 
@@ -82,22 +81,22 @@ namespace Advent2019 {
 
 
 	/// <summary>
-    /// Brute forces the Intcode program to find the noun and verb that output the desiredOutput.
+    /// Brute forces the Intcode program to find the noun and verb that output the TargetOutput.
 	/// Since noun and verb are elements of integer set {0,99}, there are only 100^2 possibilities, making
 	/// brute force extremely fast. Returned value is  100 * noun + verb.
 	/// Note that intcodeProgram is not modified by this operation.
-	/// It is expected for the program to be able to return the desiredOutput. If it's not possible, an exception 
+	/// It is expected for the program to be able to return the TargetOutput. If it's not possible, an exception 
 	/// is thrown, as it means that either or both of the parameters are invalid.
     /// </summary>
-	public static int CrackProgram(int[] intcodeProgram, int desiredOutput){
+	public static int CrackProgram(int[] intcodeProgram){
 		for (int noun = 0; noun <= NounVerbMaxValue; noun++){
 			for (int verb = 0; verb <= NounVerbMaxValue; verb++){
-				if (ExecuteIntcodeProgram(intcodeProgram, noun, verb) == desiredOutput){
+				if (ExecuteIntcodeProgram(intcodeProgram, noun, verb) == TargetOutput){
 					return 100 * noun + verb;
 				}
 			}
 		}
-		throw new ArgumentException("Desired output is impossible to compute with this program.");
+		throw new ArgumentException("Target output is impossible to compute with this program.");
 	}
 
 	}
